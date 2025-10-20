@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="Medidor de Estrés tipo chat.">
+        <meta name="author" content="">
+
+        <title>StressMeter: StressBot</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/slick.css"/>
+        <link href="css/tooplate-little-fashion.css" rel="stylesheet">
+        
+        <style>
+            
+            /* DEFINICIÓN DEL COLOR NARANJA PARA USO EN EL CHAT Y BOTÓN */
+            :root {
+                --chat-orange: #FF4400; /* Naranja fuerte */
+            }
+
+            /* 1. Bajar el cuadro: Aumento del padding-top para evitar solapamiento */
+            #chat-interfaz {
+                padding-top: 6rem !important;
+                padding-bottom: 3rem; 
+            }
+
+            /* 2. Redondear esquinas del cuadro y altura */
+            .chat-container {
+                height: 75vh;
+                min-height: 500px;
+                border-radius: 1.5rem !important;
+                overflow: hidden;
+            }
+
+            /* ESTILO PARA EL ENCABEZADO NARANJA */
+            .chat-header-orange {
+                background-color: var(--chat-orange) !important;
+                color: white; /* Asegura todo el texto blanco */
+            }
+            
+            #chat-body {
+                flex-grow: 1;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Estilo para las burbujas de mensaje */
+            .msg-bubble {
+                padding: 10px 14px;
+                border-radius: 18px;
+                max-width: 75%;
+                font-size: 0.95rem;
+                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            }
+
+            /* Mensajes del BOT (Izquierda) */
+            .bot-msg {
+                background-color: #f0f0f0; 
+                color: #333;
+                border-bottom-left-radius: 3px;
+            }
+
+            /* 3. Color Naranja para mensajes del USUARIO (Derecha) */
+            .user-msg {
+                background-color: var(--chat-orange); 
+                color: #fff;
+                border-bottom-right-radius: 3px;
+            }
+            
+            /* Estilo del botón Enviar Naranja */
+            #button-send {
+                background-color: var(--chat-orange);
+                border-color: var(--chat-orange);
+            }
+            
+            /* Estilo para Responsividad en Móviles */
+            @media (max-width: 576px) {
+                .chat-container {
+                    min-height: 400px;
+                }
+                .card-body {
+                    padding: 10px !important;
+                }
+                .msg-bubble {
+                    font-size: 0.9rem;
+                    max-width: 85%;
+                }
+            }
+        </style>
+        
+    </head>
+    
+    <body>
+
+        <section class="preloader">
+            <div class="spinner">
+                <span class="sk-inner-circle"></span>
+            </div>
+        </section>
+    
+        <main>
+
+            <nav class="navbar navbar-expand-lg">
+                <div class="container">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <a class="navbar-brand" href="index.html">
+                        <strong><span>Stress</span>Meter</strong>
+                    </a>
+
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html">Inicio</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="preguntas.html">Preguntas frecuentes</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link active" href="medidor.html">StressBot</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="portada.html">Nosotros</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <section id="chat-interfaz" class="py-5">
+                <div class="container"> 
+
+                    <div class="card shadow-lg chat-container" style="width: 100%;">
+                        
+                        <div class="card-header chat-header-orange d-flex align-items-center p-3">
+                            <i class="bi bi-robot me-3" style="font-size: 1.5rem;"></i>
+                            <h5 class="mb-0 text-white">Stress<span style="color: #000;">Bot</span></h5>
+                        </div>
+                        
+                        <div id="chat-body" class="card-body p-4">
+                            
+                            <div class="d-flex mb-3 justify-content-start">
+                                <div class="msg-bubble bot-msg">
+                                    ¡Hola! Soy StressBot, tu asistente para medir tu nivel de estrés. ¿Estás listo para comenzar?
+                                </div>
+                            </div>
+
+                            <div class="d-flex mb-3 justify-content-end">
+                                <div class="msg-bubble user-msg">
+                                    Así se verán las respuestas del usuario.
+                                </div>
+                            </div>
+
+                            <div class="d-flex mb-3 justify-content-start">
+                                <div class="msg-bubble bot-msg">
+                                    Comienza a preguntar.
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <div class="card-footer bg-light p-3 border-0">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Escribe aquí tu respuesta..." aria-label="Escribe aquí tu respuesta..." id="chat-input">
+                                <button class="btn" type="button" id="button-send">
+                                    <i class="bi bi-send-fill me-1"></i> <strong class="text-white">Enviar</strong>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 col-10 me-auto mb-4">
+                        <h4 class="text-white mb-3"><a href="index.html">Stresss</a>Meter</h4>
+                        <p class="copyright-text text-muted mt-lg-5 mb-4 mb-lg-0">Copyright © 2025 <strong>StressMeter</strong></p>
+                        <br>
+                        <p class="copyright-text">Realizado por <a href="portada.html" target="_blank">Equipo Seminario</a></p>
+                    </div>
+
+                    <div class="col-lg-5 col-8">
+                        <h5 class="text-white mb-3">Visita</h5>
+
+                        <ul class="footer-menu d-flex flex-wrap">
+                            <li class="footer-menu-item"><a href="index.html" class="footer-menu-link">Inicio</a></li>
+
+                            <li class="footer-menu-item"><a href="preguntas.html" class="footer-menu-link">Preguntas frecuentes</a></li>
+
+                            <li class="footer-menu-item"><a href="portada.html" class="footer-menu-link">Nosotros</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="js/Headroom.js"></script>
+        <script src="js/jQuery.headroom.js"></script>
+        <script src="js/slick.min.js"></script>
+        <script src="js/custom.js"></script>
+
+    </body>
+</html>
